@@ -3,7 +3,10 @@
 from setuptools import find_packages, setup
 
 inst_reqs = [
-    "titiler==0.1.0a5", "mangum>=0.9.0", "rio-tiler~=2.0b10", "rio-tiler-pds",
+    "titiler==0.1.0a5",
+    "mangum>=0.9.0",
+    "rio-tiler~=2.0b10",
+    "rio-tiler-pds",
 ]
 extra_reqs = {
     "deploy": [

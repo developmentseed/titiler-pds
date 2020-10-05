@@ -1,24 +1,25 @@
 """Landsat endpoint."""
 
 from dataclasses import dataclass, field
-from typing import Type, Dict
+from typing import Dict, Type
 
 from rio_tiler_pds.landsat.aws import L8Reader
 
-from titiler.endpoints.factory import TilerFactory
 from titiler.custom.routing import apiroute_factory
 from titiler.dependencies import DefaultDependency
+from titiler.endpoints.factory import TilerFactory
 from titiler.models.dataset import Info, Metadata
-
-from fastapi import APIRouter, Depends
 
 from ..dependencies import BandsExprParams, BandsParams, CustomPathParams
 
+from fastapi import APIRouter, Depends
 
-route_class = apiroute_factory({
-    "GDAL_DISABLE_READDIR_ON_OPEN": "FALSE",
-    "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".TIF,.ovr"
-})
+route_class = apiroute_factory(
+    {
+        "GDAL_DISABLE_READDIR_ON_OPEN": "FALSE",
+        "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".TIF,.ovr",
+    }
+)
 custom_router = APIRouter(route_class=route_class)
 
 
@@ -80,6 +81,6 @@ class LandsatTiler(TilerFactory):
             return info
 
 
-landsat = LandsatTiler(router=custom_router, router_prefix="landsat")  # noqa
+landsat = LandsatTiler(router=custom_router, router_prefix="landsat")  # type: ignore
 
 router = landsat.router

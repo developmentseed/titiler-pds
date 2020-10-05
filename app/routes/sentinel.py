@@ -1,24 +1,25 @@
 """Sentinel endpoint."""
 
 from dataclasses import dataclass, field
-from typing import Type, Dict
+from typing import Dict, Type
 
 from rio_tiler_pds.sentinel.aws import S2COGReader
 
-from titiler.endpoints.factory import TilerFactory
 from titiler.custom.routing import apiroute_factory
 from titiler.dependencies import DefaultDependency
+from titiler.endpoints.factory import TilerFactory
 from titiler.models.dataset import Info, Metadata
-
-from fastapi import APIRouter, Depends
 
 from ..dependencies import BandsExprParams, BandsParams, CustomPathParams
 
+from fastapi import APIRouter, Depends
 
-route_class = apiroute_factory({
-    "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR",
-    "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".tif",
-})
+route_class = apiroute_factory(
+    {
+        "GDAL_DISABLE_READDIR_ON_OPEN": "EMPTY_DIR",
+        "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".tif",
+    }
+)
 custom_router = APIRouter(route_class=route_class)
 
 
@@ -79,6 +80,6 @@ class SentinelTiler(TilerFactory):
                 )
             return info
 
-sentinel = SentinelTiler(router=custom_router, router_prefix="sentinel")  # noqa
 
+sentinel = SentinelTiler(router=custom_router, router_prefix="sentinel")  # type: ignore
 router = sentinel.router

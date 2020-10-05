@@ -3,10 +3,10 @@
 from dataclasses import dataclass, field
 from typing import Dict, Optional, Sequence
 
-from titiler.dependencies import DefaultDependency
-
-from rio_tiler_pds.sentinel.utils import s2_sceneid_parser
 from rio_tiler_pds.landsat.utils import sceneid_parser as l8_sceneid_parser
+from rio_tiler_pds.sentinel.utils import s2_sceneid_parser
+
+from titiler.dependencies import DefaultDependency
 
 from fastapi import Query
 
@@ -29,9 +29,7 @@ class CustomPathParams:
 
 def BandsParams(
     bands: str = Query(
-        ...,
-        title="bands names",
-        description="comma (',') delimited bands names.",
+        ..., title="bands names", description="comma (',') delimited bands names.",
     )
 ) -> Sequence[str]:
     """Bands."""
@@ -43,9 +41,7 @@ class BandsExprParams(DefaultDependency):
     """Band names and Expression parameters."""
 
     bands: Optional[str] = Query(
-        None,
-        title="bands names",
-        description="comma (',') delimited bands names.",
+        None, title="bands names", description="comma (',') delimited bands names.",
     )
     expression: Optional[str] = Query(
         None,

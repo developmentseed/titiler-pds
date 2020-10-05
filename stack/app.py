@@ -9,7 +9,6 @@ from aws_cdk import aws_iam as iam
 from aws_cdk import aws_lambda, core
 from config import stack_config
 
-
 DEFAULT_ENV = dict(
     CPL_TMPDIR="/tmp",
     GDAL_CACHEMAX="75%",
