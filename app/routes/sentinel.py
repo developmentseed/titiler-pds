@@ -7,7 +7,7 @@ from rio_tiler_pds.sentinel.aws import S2COGReader
 
 from titiler.custom.routing import apiroute_factory
 from titiler.dependencies import DefaultDependency
-from titiler.endpoints.factory import TilerFactory, MosaicTilerFactory
+from titiler.endpoints.factory import MosaicTilerFactory, TilerFactory
 from titiler.models.dataset import Info, Metadata
 
 from ..dependencies import BandsExprParams, BandsParams, CustomPathParams
@@ -81,8 +81,7 @@ class SentinelTiler(TilerFactory):
 
 
 scenes = SentinelTiler(  # type: ignore
-    router=APIRouter(route_class=route_class),
-    router_prefix="scenes/sentinel"
+    router=APIRouter(route_class=route_class), router_prefix="scenes/sentinel"
 )
 
 mosaicjson = MosaicTilerFactory(  # type: ignore

@@ -1,8 +1,8 @@
 """titiler-pds app."""
 
+from brotli_asgi import BrotliMiddleware
 from mangum import Mangum
 
-from brotli_asgi import BrotliMiddleware
 from titiler.errors import DEFAULT_STATUS_CODES, add_exception_handlers
 from titiler.middleware import CacheControlMiddleware, TotalTimeMiddleware
 
@@ -12,14 +12,19 @@ from fastapi import FastAPI
 
 from starlette.middleware.cors import CORSMiddleware
 
-
 app = FastAPI(title="titiler-pds", version="0.1.0")
 
 app.include_router(landsat.scenes.router, prefix="/scenes/landsat", tags=["Landsat 8"])
-app.include_router(landsat.mosaicjson.router, prefix="/mosaicjson/landsat", tags=["Landsat 8"])
+app.include_router(
+    landsat.mosaicjson.router, prefix="/mosaicjson/landsat", tags=["Landsat 8"]
+)
 
-app.include_router(sentinel.scenes.router, prefix="/scenes/sentinel", tags=["Sentinel 2 COG"])
-app.include_router(sentinel.mosaicjson.router, prefix="/mosaicjson/sentinel", tags=["Sentinel 2 COG"])
+app.include_router(
+    sentinel.scenes.router, prefix="/scenes/sentinel", tags=["Sentinel 2 COG"]
+)
+app.include_router(
+    sentinel.mosaicjson.router, prefix="/mosaicjson/sentinel", tags=["Sentinel 2 COG"]
+)
 
 add_exception_handlers(app, DEFAULT_STATUS_CODES)
 
