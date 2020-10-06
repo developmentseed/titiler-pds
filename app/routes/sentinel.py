@@ -7,7 +7,7 @@ from rio_tiler_pds.sentinel.aws import S2COGReader
 
 from titiler.custom.routing import apiroute_factory
 from titiler.dependencies import DefaultDependency
-from titiler.endpoints.factory import TilerFactory
+from titiler.endpoints.factory import TilerFactory, MosaicTilerFactory
 from titiler.models.dataset import Info, Metadata
 
 from ..dependencies import BandsExprParams, BandsParams, CustomPathParams
@@ -20,7 +20,6 @@ route_class = apiroute_factory(
         "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".tif",
     }
 )
-custom_router = APIRouter(route_class=route_class)
 
 
 @dataclass
@@ -81,5 +80,16 @@ class SentinelTiler(TilerFactory):
             return info
 
 
-sentinel = SentinelTiler(router=custom_router, router_prefix="sentinel")  # type: ignore
-router = sentinel.router
+scenes = SentinelTiler(  # type: ignore
+    router=APIRouter(route_class=route_class),
+    router_prefix="scenes/sentinel"
+)
+
+mosaicjson = MosaicTilerFactory(  # type: ignore
+    dataset_reader=S2COGReader,
+    layer_dependency=BandsExprParams,
+    add_update=False,
+    add_create=False,
+    router=APIRouter(route_class=route_class),
+    router_prefix="mosaicjson/sentinel",
+)

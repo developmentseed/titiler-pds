@@ -3,8 +3,8 @@
 from setuptools import find_packages, setup
 
 inst_reqs = [
-    "titiler==0.1.0a5",
-    "mangum>=0.9.0",
+    "titiler==0.1.0a6",
+    "mangum>=0.10.0",
     "rio-tiler~=2.0b10",
     "rio-tiler-pds",
 ]
@@ -24,7 +24,7 @@ extra_reqs = {
 setup(
     name="app",
     version="0.0.1",
-    description=u"API for cogeo.xyz",
+    description=u"TiTiler for AWS Public Dataset",
     python_requires=">=3",
     classifiers=[
         "Intended Audience :: Information Technology",

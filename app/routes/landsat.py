@@ -7,7 +7,7 @@ from rio_tiler_pds.landsat.aws import L8Reader
 
 from titiler.custom.routing import apiroute_factory
 from titiler.dependencies import DefaultDependency
-from titiler.endpoints.factory import TilerFactory
+from titiler.endpoints.factory import TilerFactory, MosaicTilerFactory
 from titiler.models.dataset import Info, Metadata
 
 from ..dependencies import BandsExprParams, BandsParams, CustomPathParams
@@ -20,7 +20,6 @@ route_class = apiroute_factory(
         "CPL_VSIL_CURL_ALLOWED_EXTENSIONS": ".TIF,.ovr",
     }
 )
-custom_router = APIRouter(route_class=route_class)
 
 
 @dataclass
@@ -81,6 +80,16 @@ class LandsatTiler(TilerFactory):
             return info
 
 
-landsat = LandsatTiler(router=custom_router, router_prefix="landsat")  # type: ignore
+scenes = LandsatTiler(  # type: ignore
+    router=APIRouter(route_class=route_class),
+    router_prefix="scenes/landsat"
+)
 
-router = landsat.router
+mosaicjson = MosaicTilerFactory(  # type: ignore
+    dataset_reader=L8Reader,
+    layer_dependency=BandsExprParams,
+    add_update=False,
+    add_create=False,
+    router=APIRouter(route_class=route_class),
+    router_prefix="mosaicjson/landsat",
+)
