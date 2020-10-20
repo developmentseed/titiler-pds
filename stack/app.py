@@ -44,7 +44,12 @@ class LambdaStack(core.Stack):
 
         lambda_env = DEFAULT_ENV.copy()
         lambda_env.update(env)
-
+        lambda_env.update(
+            dict(
+                MOSAIC_BACKEND=stack_config.mosaic_backend,
+                MOSAIC_HOST=stack_config.mosaic_host,
+            )
+        )
         lambda_function = aws_lambda.Function(
             self,
             f"{id}-lambda",
@@ -56,6 +61,20 @@ class LambdaStack(core.Stack):
             timeout=core.Duration.seconds(timeout),
             environment=lambda_env,
         )
+
+        if stack_config.mosaic_backend == "dynamodb://":
+            permissions.append(
+                iam.PolicyStatement(
+                    actions=[
+                        "dynamodb:GetItem",
+                        "dynamodb:Scan",
+                        "dynamodb:BatchWriteItem",
+                    ],
+                    resources=[
+                        f"arn:aws:dynamodb:{self.region}:{self.account}:table/*"
+                    ],
+                )
+            )
 
         for perm in permissions:
             lambda_function.add_to_role_policy(perm)
@@ -111,7 +130,7 @@ if stack_config.buckets:
 
 # Tag infrastructure
 for key, value in {
-    "Project": stack_config.name,
+    "Project": stack_config.project,
     "Stack": stack_config.stage,
     "Owner": stack_config.owner,
     "Client": stack_config.client,
