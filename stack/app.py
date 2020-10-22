@@ -44,7 +44,12 @@ class LambdaStack(core.Stack):
 
         lambda_env = DEFAULT_ENV.copy()
         lambda_env.update(env)
-
+        lambda_env.update(
+            dict(
+                MOSAIC_BACKEND=stack_config.mosaic_backend,
+                MOSAIC_HOST=stack_config.mosaic_host,
+            )
+        )
         lambda_function = aws_lambda.Function(
             self,
             f"{id}-lambda",
@@ -109,9 +114,26 @@ if stack_config.buckets:
         )
     )
 
+stack = core.Stack()
+if stack_config.mosaic_backend == "dynamodb://":
+    perms.append(
+        iam.PolicyStatement(
+            actions=["dynamodb:GetItem", "dynamodb:Scan", "dynamodb:BatchWriteItem"],
+            resources=[f"arn:aws:dynamodb:{stack.region}:{stack.account}:table/*"],
+        )
+    )
+
+if stack_config.mosaic_backend == "s3://":
+    perms.append(
+        iam.PolicyStatement(
+            actions=["s3:GetObject", "s3:HeadObject"],
+            resources=[f"arn:aws:s3:::{stack_config.mosaic_host}*"],
+        )
+    )
+
 # Tag infrastructure
 for key, value in {
-    "Project": stack_config.name,
+    "Project": stack_config.project,
     "Stack": stack_config.stage,
     "Owner": stack_config.owner,
     "Client": stack_config.client,

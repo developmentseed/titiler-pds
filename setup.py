@@ -3,11 +3,14 @@
 from setuptools import find_packages, setup
 
 inst_reqs = [
+    "aiocache[memcached]",
     "titiler==0.1.0a8",
     "mangum>=0.10.0",
-    "rio-tiler~=2.0.0b17",
+    "rio-tiler~=2.0.0b18",
     "rio-tiler-pds~=0.3.2",
+    "cogeo-mosaic>=3.0.0b14",
 ]
+
 extra_reqs = {
     "deploy": [
         "docker",
