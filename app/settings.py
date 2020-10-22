@@ -1,7 +1,5 @@
 """app settings"""
 
-from typing import Optional
-
 import pydantic
 
 
@@ -10,7 +8,8 @@ class MosaicSettings(pydantic.BaseSettings):
 
     backend: str
     host: str
-    format: Optional[str]
+    # format will be ignored for dynamodb backend
+    format: str = ".json.gz"
 
     class Config:
         """model config"""

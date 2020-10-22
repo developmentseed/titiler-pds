@@ -62,20 +62,6 @@ class LambdaStack(core.Stack):
             environment=lambda_env,
         )
 
-        if stack_config.mosaic_backend == "dynamodb://":
-            permissions.append(
-                iam.PolicyStatement(
-                    actions=[
-                        "dynamodb:GetItem",
-                        "dynamodb:Scan",
-                        "dynamodb:BatchWriteItem",
-                    ],
-                    resources=[
-                        f"arn:aws:dynamodb:{self.region}:{self.account}:table/*"
-                    ],
-                )
-            )
-
         for perm in permissions:
             lambda_function.add_to_role_policy(perm)
 
@@ -125,6 +111,23 @@ if stack_config.buckets:
         iam.PolicyStatement(
             actions=["s3:GetObject", "s3:HeadObject"],
             resources=[f"arn:aws:s3:::{bucket}*" for bucket in stack_config.buckets],
+        )
+    )
+
+stack = core.Stack()
+if stack_config.mosaic_backend == "dynamodb://":
+    perms.append(
+        iam.PolicyStatement(
+            actions=["dynamodb:GetItem", "dynamodb:Scan", "dynamodb:BatchWriteItem"],
+            resources=[f"arn:aws:dynamodb:{stack.region}:{stack.account}:table/*"],
+        )
+    )
+
+if stack_config.mosaic_backend == "s3://":
+    perms.append(
+        iam.PolicyStatement(
+            actions=["s3:GetObject", "s3:HeadObject"],
+            resources=[f"arn:aws:s3:::{stack_config.mosaic_host}*"],
         )
     )
 

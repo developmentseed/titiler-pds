@@ -17,7 +17,8 @@ class StackSettings(pydantic.BaseSettings):
 
     additional_env: Dict = {}
 
-    buckets: List = ["landsat-pds", "sentinel-cogs"]
+    # Default PDS buckets
+    buckets: List = ["landsat-pds", "sentinel-cogs", "naip-visualization"]
 
     timeout: int = 30
     memory: int = 3008
@@ -29,7 +30,8 @@ class StackSettings(pydantic.BaseSettings):
     # mosaic
     mosaic_backend: str
     mosaic_host: str
-    mosaic_format: Optional[str]
+    # format will be ignored for dynamodb backend
+    mosaic_format: str = ".json.gz"
 
     class Config:
         """model config"""

@@ -1,12 +1,14 @@
 """titiler-pds app."""
 
+import logging
+
 from brotli_asgi import BrotliMiddleware
 from mangum import Mangum
 
 from titiler.errors import DEFAULT_STATUS_CODES, add_exception_handlers
 from titiler.middleware import CacheControlMiddleware, TotalTimeMiddleware
 
-from .routes import landsat, sentinel
+from .routes import landsat, naip, sentinel
 
 from fastapi import FastAPI
 
@@ -25,6 +27,9 @@ app.include_router(
 app.include_router(
     sentinel.mosaicjson.router, prefix="/mosaicjson/sentinel", tags=["Sentinel 2 COG"]
 )
+
+# NAIP tiler is a regular tiler with requester-pays set
+app.include_router(naip.mosaicjson.router, prefix="/mosaicjson/naip", tags=["NAIP"])
 
 add_exception_handlers(app, DEFAULT_STATUS_CODES)
 
@@ -46,4 +51,11 @@ def ping():
     return {"ping": "pong!"}
 
 
-handler = Mangum(app, log_level="error")
+# turn off or quiet logs
+logging.getLogger("botocore.credentials").disabled = True
+logging.getLogger("botocore.utils").disabled = True
+logging.getLogger("mangum.lifespan").setLevel(logging.ERROR)
+logging.getLogger("mangum.http").setLevel(logging.ERROR)
+logging.getLogger("rio-tiler").setLevel(logging.ERROR)
+
+handler = Mangum(app)

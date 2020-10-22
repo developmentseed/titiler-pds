@@ -1,5 +1,11 @@
 ## titiler-pds
 
+[titiler](https://github.com/developmentseed/titiler) application built specifically for AWS Public Data Set.
+
+supported PDS:
+- Landsat 8
+- Sentinel 2 (COGS)
+- NAIP
 
 ## Deploy
 
