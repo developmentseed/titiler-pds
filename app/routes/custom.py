@@ -3,8 +3,9 @@
 from dataclasses import dataclass
 from typing import Dict
 
+from rio_tiler.models import Info, Metadata
+
 from titiler.endpoints.factory import TilerFactory
-from titiler.models.dataset import Info, Metadata
 
 from ..dependencies import BandsParams
 
@@ -32,8 +33,7 @@ class SceneTiler(TilerFactory):
         ):
             """Return basic info."""
             with self.reader(src_path.url, **self.reader_options) as src_dst:
-                info = src_dst.info(bands=bands, **kwargs)
-            return info
+                return src_dst.info(bands=bands, **kwargs)
 
     def metadata(self):
         """Register /metadata endpoint."""
@@ -53,11 +53,10 @@ class SceneTiler(TilerFactory):
         ):
             """Return metadata."""
             with self.reader(src_path.url, **self.reader_options) as src_dst:
-                info = src_dst.metadata(
+                return src_dst.metadata(
                     metadata_params.pmin,
                     metadata_params.pmax,
                     bands=bands,
                     **metadata_params.kwargs,
                     **kwargs,
                 )
-            return info
