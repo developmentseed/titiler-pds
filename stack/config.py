@@ -21,7 +21,7 @@ class StackSettings(pydantic.BaseSettings):
     buckets: List = ["landsat-pds", "sentinel-cogs", "naip-visualization"]
 
     timeout: int = 30
-    memory: int = 3008
+    memory: int = 3009
 
     # The maximum of concurrent executions you want to reserve for the function.
     # Default: - No specific limit - account limit.
@@ -38,6 +38,3 @@ class StackSettings(pydantic.BaseSettings):
 
         env_file = "stack/.env"
         env_prefix = "STACK_"
-
-
-stack_config = StackSettings()

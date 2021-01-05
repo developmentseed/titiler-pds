@@ -14,6 +14,13 @@ from fastapi import FastAPI
 
 from starlette.middleware.cors import CORSMiddleware
 
+# turn off or quiet logs
+logging.getLogger("botocore.credentials").disabled = True
+logging.getLogger("botocore.utils").disabled = True
+logging.getLogger("mangum.lifespan").setLevel(logging.ERROR)
+logging.getLogger("mangum.http").setLevel(logging.ERROR)
+logging.getLogger("rio-tiler").setLevel(logging.ERROR)
+
 app = FastAPI(title="titiler-pds", version="0.1.0")
 
 app.include_router(landsat.scenes.router, prefix="/scenes/landsat", tags=["Landsat 8"])
@@ -32,7 +39,6 @@ app.include_router(
 app.include_router(naip.mosaicjson.router, prefix="/mosaicjson/naip", tags=["NAIP"])
 
 add_exception_handlers(app, DEFAULT_STATUS_CODES)
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -50,12 +56,5 @@ def ping():
     """Health check."""
     return {"ping": "pong!"}
 
-
-# turn off or quiet logs
-logging.getLogger("botocore.credentials").disabled = True
-logging.getLogger("botocore.utils").disabled = True
-logging.getLogger("mangum.lifespan").setLevel(logging.ERROR)
-logging.getLogger("mangum.http").setLevel(logging.ERROR)
-logging.getLogger("rio-tiler").setLevel(logging.ERROR)
 
 handler = Mangum(app)

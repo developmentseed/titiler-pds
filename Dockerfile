@@ -1,4 +1,4 @@
-FROM lambci/lambda:build-python3.7
+FROM lambci/lambda:build-python3.8
 
 WORKDIR /tmp
 
@@ -16,4 +16,3 @@ RUN cd /var/task && find . -type d -a -name 'tests' -print0 | xargs -0 rm -rf
 RUN rm -rdf /var/task/numpy/doc/
 RUN rm -rdf /var/task/stack
 
-RUN cd /var/task && zip -r9q /tmp/package.zip *

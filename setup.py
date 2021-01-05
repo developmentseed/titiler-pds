@@ -4,21 +4,17 @@ from setuptools import find_packages, setup
 
 inst_reqs = [
     "aiocache[memcached]",
-    "titiler==0.1.0a10",
+    "titiler==0.1.0a14",
     "mangum>=0.10.0",
-    "rio-tiler~=2.0.0rc1",
-    "rio-tiler-pds~=0.4.0",
-    "cogeo-mosaic>=3.0.0a17",
+    "rio-tiler-pds",
 ]
 
 extra_reqs = {
     "deploy": [
-        "docker",
-        "aws-cdk.core",
-        "aws-cdk.aws_lambda",
-        "aws-cdk.aws_apigatewayv2",
-        "aws-cdk.aws_ecs",
-        "aws-cdk.aws_ec2",
+        "aws-cdk.core==1.76.0",
+        "aws-cdk.aws_lambda==1.76.0",
+        "aws-cdk.aws_apigatewayv2==1.76.0",
+        "aws-cdk.aws_apigatewayv2_integrations==1.76.0",
     ],
     "test": ["pytest", "pytest-cov", "pytest-asyncio", "requests"],
 }
