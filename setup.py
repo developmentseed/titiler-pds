@@ -32,7 +32,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
     ],
-    packages=find_packages(exclude=["ez_setup", "examples", "tests"]),
+    packages=find_packages(exclude=["stack*", "tests*"]),
     include_package_data=True,
     zip_safe=False,
     install_requires=inst_reqs,
