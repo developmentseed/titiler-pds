@@ -8,7 +8,7 @@ from geojson_pydantic.features import Feature
 from rio_tiler.models import Info, Metadata
 
 from titiler.endpoints.factory import TilerFactory
-from titiler.ressources.responses import GeoJSONResponse
+from titiler.resources.responses import GeoJSONResponse
 from titiler.utils import bbox_to_feature
 
 from ..dependencies import BandsParams

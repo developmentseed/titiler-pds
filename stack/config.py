@@ -18,7 +18,12 @@ class StackSettings(pydantic.BaseSettings):
     additional_env: Dict = {}
 
     # Default PDS buckets
-    buckets: List = ["landsat-pds", "sentinel-cogs", "naip-visualization"]
+    buckets: List = [
+        "usgs-landsat",
+        "landsat-pds",
+        "sentinel-cogs",
+        "naip-visualization",
+    ]
 
     timeout: int = 30
     memory: int = 3009

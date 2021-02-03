@@ -24,9 +24,26 @@ class CustomPathParams:
     def __post_init__(self,):
         """Define dataset URL."""
         self.url = self.sceneid
-        if self.sceneid.startswith("S2"):
+        if re.match(
+            "^S2[AB]_[0-9]{1,2}[A-Z]{3}_[0-9]{8}_[0-9]{1,2}_L[0-2][A-C]$", self.sceneid
+        ):
             self.scene_metadata = s2_sceneid_parser(self.sceneid)
-        elif self.sceneid.startswith("L8"):
+
+        elif re.match(
+            "^S2[AB]_L[0-2][A-C]_[0-9]{8}_[0-9]{1,2}[A-Z]{3}_[0-9]{1,2}$", self.sceneid
+        ):  # Legacy sceneid format
+            self.scene_metadata = s2_sceneid_parser(self.sceneid)
+
+        elif re.match(
+            "^S2[AB]_MSIL[0-2][ABC]_[0-9]{8}T[0-9]{6}_N[0-9]{4}_R[0-9]{3}_T[0-9A-Z]{5}_[0-9]{8}T[0-9]{6}$",
+            self.sceneid,
+        ):  # product id
+            self.scene_metadata = s2_sceneid_parser(self.sceneid)
+
+        elif re.match(
+            r"^L[COTEM]0[0-9]_L[12]{1}[A-Z]{2}_\d{6}_\d{8}_\d{8}_\d{2}_(T1|T2|RT)$",
+            self.sceneid,
+        ):
             self.scene_metadata = l8_sceneid_parser(self.sceneid)
 
 

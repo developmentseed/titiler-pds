@@ -18,6 +18,7 @@ mosaicjson = MosaicTilerFactory(  # type: ignore
     path_dependency=MosaicParams,
     dataset_reader=S2COGReader,
     layer_dependency=BandsExprParams,
+    # By default we do not use this API to create or store the mosaics
     add_update=False,
     add_create=False,
     router_prefix="mosaicjson/sentinel",

@@ -68,7 +68,7 @@ class LambdaStack(core.Stack):
                     command=["bash", "-c", "cp -R /var/task/. /asset-output/."],
                 ),
             ),
-            handler="app.main.handler",
+            handler="titiler_pds.main.handler",
             memory_size=memory,
             reserved_concurrent_executions=concurrent,
             timeout=core.Duration.seconds(timeout),

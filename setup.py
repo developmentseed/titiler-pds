@@ -4,9 +4,8 @@ from setuptools import find_packages, setup
 
 inst_reqs = [
     "aiocache[memcached]",
-    "titiler==0.1.0a14",
-    "mangum>=0.10.0",
-    "rio-tiler-pds",
+    "titiler @ git+https://github.com/developmentseed/titiler.git",
+    "rio-tiler-pds==0.5.0",
 ]
 
 extra_reqs = {
@@ -21,7 +20,7 @@ extra_reqs = {
 
 
 setup(
-    name="app",
+    name="titiler_pds",
     version="0.0.1",
     description=u"TiTiler for AWS Public Dataset",
     python_requires=">=3",

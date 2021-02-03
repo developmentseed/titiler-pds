@@ -3,7 +3,7 @@ FROM lambci/lambda:build-python3.8
 WORKDIR /tmp
 
 COPY setup.py setup.py
-COPY app/ app/
+COPY titiler_pds/ titiler_pds/
 
 # Install dependencies
 RUN pip install . -t /var/task  --no-binary numpy,pydantic
