@@ -6,7 +6,7 @@ COPY setup.py setup.py
 COPY titiler_pds/ titiler_pds/
 
 # Install dependencies
-RUN pip install . -t /var/task  --no-binary numpy,pydantic
+RUN pip install . rasterio==1.1.8 -t /var/task  --no-binary numpy,pydantic
 
 # Leave module precompiles for faster Lambda startup
 RUN cd /var/task && find . -type f -name '*.pyc' | while read f; do n=$(echo $f | sed 's/__pycache__\///' | sed 's/.cpython-[2-3][0-9]//'); cp $f $n; done;

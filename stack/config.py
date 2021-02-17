@@ -23,6 +23,7 @@ class StackSettings(pydantic.BaseSettings):
         "landsat-pds",
         "sentinel-cogs",
         "naip-visualization",
+        "naip-analytic",
     ]
 
     timeout: int = 30

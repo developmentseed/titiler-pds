@@ -2,11 +2,7 @@
 
 from setuptools import find_packages, setup
 
-inst_reqs = [
-    "aiocache[memcached]",
-    "titiler @ git+https://github.com/developmentseed/titiler.git",
-    "rio-tiler-pds==0.5.0",
-]
+inst_reqs = ["titiler==0.1.0", "tilebench", "rio-tiler-pds==0.5.0", "mangum>=0.10"]
 
 extra_reqs = {
     "deploy": [
