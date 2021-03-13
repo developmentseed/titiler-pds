@@ -61,7 +61,7 @@ app.include_router(
 app.include_router(naip.mosaicjson.router, prefix="/mosaicjson/naip", tags=["NAIP"])
 
 
-@app.get("/healtz", description="Health Check", tags=["Health Check"])
+@app.get("/healthz", description="Health Check", tags=["Health Check"])
 def ping():
     """Health check."""
     return {"ping": "pong!"}
