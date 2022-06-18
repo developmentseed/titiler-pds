@@ -23,7 +23,7 @@ extra_reqs = {
 setup(
     name="titiler_pds",
     version="0.0.1",
-    description=u"TiTiler for AWS Public Dataset",
+    description="TiTiler for AWS Public Dataset",
     python_requires=">=3",
     classifiers=[
         "Intended Audience :: Information Technology",
