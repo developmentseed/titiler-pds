@@ -7,7 +7,7 @@ from typing import Dict, Optional, Sequence
 from rio_tiler_pds.landsat.utils import sceneid_parser as l8_sceneid_parser
 from rio_tiler_pds.sentinel.utils import s2_sceneid_parser
 
-from titiler.dependencies import DefaultDependency
+from titiler.core.dependencies import DefaultDependency
 
 from .settings import mosaic_config
 

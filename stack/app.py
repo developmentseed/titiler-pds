@@ -35,7 +35,7 @@ class LambdaStack(core.Stack):
         id: str,
         memory: int = 1024,
         timeout: int = 30,
-        runtime: aws_lambda.Runtime = aws_lambda.Runtime.PYTHON_3_8,
+        runtime: aws_lambda.Runtime = aws_lambda.Runtime.FROM_IMAGE,
         concurrent: Optional[int] = None,
         permissions: Optional[List[iam.PolicyStatement]] = None,
         env: dict = {},
@@ -59,17 +59,10 @@ class LambdaStack(core.Stack):
             self,
             f"{id}-lambda",
             runtime=runtime,
-            code=aws_lambda.Code.from_asset(
-                path=os.path.abspath(code_dir),
-                bundling=core.BundlingOptions(
-                    image=core.BundlingDockerImage.from_asset(
-                        os.path.abspath(code_dir),
-                        file="Dockerfile",
-                    ),
-                    command=["bash", "-c", "cp -R /var/task/. /asset-output/."],
-                ),
+            code=aws_lambda.Code.from_asset_image(
+                directory=os.path.abspath(code_dir),
             ),
-            handler="titiler_pds.handler.handler",
+            handler=aws_lambda.Handler.FROM_IMAGE,
             memory_size=memory,
             reserved_concurrent_executions=concurrent,
             timeout=core.Duration.seconds(timeout),
@@ -82,8 +75,8 @@ class LambdaStack(core.Stack):
         api = apigw.HttpApi(
             self,
             f"{id}-endpoint",
-            default_integration=apigw_integrations.LambdaProxyIntegration(
-                handler=lambda_function
+            default_integration=apigw_integrations.HttpLambdaIntegration(
+                id=f"{id}-endpoint-lambda", handler=lambda_function
             ),
         )
         core.CfnOutput(self, "Endpoint", value=api.url)
@@ -125,7 +118,7 @@ for key, value in {
     "Client": settings.client,
 }.items():
     if value:
-        core.Tag.add(app, key, value)
+        core.Tag(key, value, apply_to_launched_instances=False)
 
 
 LambdaStack(

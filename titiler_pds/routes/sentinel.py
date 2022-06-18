@@ -2,9 +2,10 @@
 
 from rio_tiler_pds.sentinel.aws import S2COGReader
 
-from titiler.custom.routing import apiroute_factory
-from titiler.dependencies import BandsExprParams
-from titiler.endpoints.factory import MosaicTilerFactory, MultiBandTilerFactory
+from titiler.core.dependencies import BandsExprParams
+from titiler.core.factory import MultiBandTilerFactory
+from titiler.core.routing import apiroute_factory
+from titiler.mosaic.factory import MosaicTilerFactory
 
 from ..dependencies import CustomPathParams, MosaicParams
 

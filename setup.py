@@ -3,18 +3,21 @@
 from setuptools import find_packages, setup
 
 inst_reqs = [
-    "titiler>=0.1.0,<0.2",
+    "brotli-asgi>=1.1.0",
+    "titiler.core>=0.7.0",
+    "titiler.mosaic>=0.7.0",
+    "titiler.application>=0.7.0",
     "tilebench",
-    "rio-tiler-pds>=0.5.0,<1.0",
+    "rio-tiler-pds>=0.7.0,<1.0",
     "mangum>=0.10",
 ]
 
 extra_reqs = {
     "deploy": [
-        "aws-cdk.core==1.76.0",
-        "aws-cdk.aws_lambda==1.76.0",
-        "aws-cdk.aws_apigatewayv2==1.76.0",
-        "aws-cdk.aws_apigatewayv2_integrations==1.76.0",
+        "aws-cdk.core==1.160.0",
+        "aws-cdk.aws_lambda==1.160.0",
+        "aws-cdk.aws_apigatewayv2==1.160.0",
+        "aws-cdk.aws_apigatewayv2_integrations==1.160.0",
     ],
     "test": ["pytest", "pytest-cov", "pytest-asyncio", "requests"],
 }
@@ -22,7 +25,7 @@ extra_reqs = {
 
 setup(
     name="titiler_pds",
-    version="0.0.1",
+    version="0.1.0",
     description="TiTiler for AWS Public Dataset",
     python_requires=">=3",
     classifiers=[

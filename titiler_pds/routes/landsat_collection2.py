@@ -1,10 +1,11 @@
 """Landsat endpoint."""
 
-from rio_tiler_pds.landsat.aws import LandsatC2Reader
+from rio_tiler_pds.landsat.aws.landsat_collection2 import LandsatC2Reader
 
-from titiler.custom.routing import apiroute_factory
-from titiler.dependencies import BandsExprParams
-from titiler.endpoints.factory import MosaicTilerFactory, MultiBandTilerFactory
+from titiler.core.dependencies import BandsExprParams
+from titiler.core.factory import MultiBandTilerFactory
+from titiler.core.routing import apiroute_factory
+from titiler.mosaic.factory import MosaicTilerFactory
 
 from ..dependencies import CustomPathParams, MosaicParams
 
