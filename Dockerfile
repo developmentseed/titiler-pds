@@ -4,7 +4,8 @@ COPY setup.py ${LAMBDA_TASK_ROOT}
 COPY titiler_pds/ ${LAMBDA_TASK_ROOT}/titiler_pds/
 
 # Install dependencies
-RUN pip3 install . rasterio==1.3a2 -t ${LAMBDA_TASK_ROOT} && \
+RUN pip3 install titiler_pds/rio_tiler_pds-0.7.0-py3-none-any.whl -t ${LAMBDA_TASK_ROOT} && \
+    pip3 install . rasterio==1.3a2 -t ${LAMBDA_TASK_ROOT} && \
     \
     echo "Leave module precompiles for faster Lambda startup" && \
     cd ${LAMBDA_TASK_ROOT} && find . -type f -name '*.pyc' | \
