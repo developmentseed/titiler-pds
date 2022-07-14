@@ -47,6 +47,7 @@ class CustomPathParams:
             self.scene_metadata = l8_sceneid_parser(self.sceneid)
 
     def __str__(self):
+        """to string"""
         return self.sceneid
 
 
