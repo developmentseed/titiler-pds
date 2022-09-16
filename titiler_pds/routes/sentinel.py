@@ -9,18 +9,13 @@ from titiler.mosaic.factory import MosaicTilerFactory
 
 from ..dependencies import CustomPathParams, MosaicParams
 
-from fastapi import APIRouter, Depends
-
-
-def get_callable_dependency(value: CustomPathParams = Depends(callable_dependency)):
-    return value.sceneid
-
+from fastapi import APIRouter
 
 route_class = apiroute_factory({"AWS_NO_SIGN_REQUEST": "YES"})
 
 scenes = MultiBandTilerFactory(
     reader=S2COGReader,
-    path_dependency=get_callable_dependency,
+    path_dependency=CustomPathParams,
     router_prefix="scenes/sentinel",
     router=APIRouter(route_class=route_class),
 )
