@@ -7,7 +7,7 @@ from typing import Dict, Optional, Sequence
 from rio_tiler_pds.landsat.utils import sceneid_parser as l8_sceneid_parser
 from rio_tiler_pds.sentinel.utils import s2_sceneid_parser
 
-from titiler.dependencies import DefaultDependency
+from titiler.core.dependencies import DefaultDependency
 
 from .settings import mosaic_config
 
@@ -21,7 +21,7 @@ class CustomPathParams:
     sceneid: str = Query(..., description="Sceneid.")
     scene_metadata: Dict = field(init=False)
 
-    def __post_init__(self,):
+    def __post_init__(self):
         """Define dataset URL."""
         self.url = self.sceneid
         if re.match(
@@ -46,10 +46,16 @@ class CustomPathParams:
         ):
             self.scene_metadata = l8_sceneid_parser(self.sceneid)
 
+    def __str__(self):
+        """to string"""
+        return self.sceneid
+
 
 def BandsParams(
     bands: str = Query(
-        ..., title="bands names", description="comma (',') delimited bands names.",
+        ...,
+        title="bands names",
+        description="comma (',') delimited bands names.",
     )
 ) -> Sequence[str]:
     """Bands."""
@@ -61,7 +67,9 @@ class BandsExprParams(DefaultDependency):
     """Band names and Expression parameters."""
 
     bands: Optional[str] = Query(
-        None, title="bands names", description="comma (',') delimited bands names.",
+        None,
+        title="bands names",
+        description="comma (',') delimited bands names.",
     )
     expression: Optional[str] = Query(
         None,
@@ -83,14 +91,15 @@ class MosaicParams:
 
     layer: str = Query(..., description="Mosaic Layer name ('{username}.{layer}')")
 
-    def __post_init__(self,):
+    def __post_init__(self):
         """Define mosaic URL."""
         pattern = (
             r"^(?P<username>[a-zA-Z0-9-_]{1,32})\.(?P<layername>[a-zA-Z0-9-_]{1,32})$"
         )
         if not re.match(pattern, self.layer):
             raise HTTPException(
-                status_code=400, detail=f"Invalid layer name: `{self.layer}`",
+                status_code=400,
+                detail=f"Invalid layer name: `{self.layer}`",
             )
         if mosaic_config.backend == "dynamodb://":
             self.url = f"{mosaic_config.backend}{mosaic_config.host}:{self.layer}"
